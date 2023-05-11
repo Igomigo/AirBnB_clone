@@ -19,6 +19,7 @@ class BaseModel:
             **kwargs: represents the key/value pairs of attributes
         """
 
+<<<<<<< HEAD
         if kwargs:
             for k, v in kwargs.items():
                 if k != "__class__":
@@ -29,6 +30,11 @@ class BaseModel:
             self.id = str(uuid4())
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
+=======
+        self.id = str(uuid4())
+        self.created_at = datetime.now()
+        self.updated_at = datetime.now()
+>>>>>>> f45ddfcc34bce749f1f30c23d6b7916ae0df18b2
 
     def __str__(self):
         """ returns a string representation of an instance """

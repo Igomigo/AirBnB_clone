@@ -21,7 +21,6 @@ class BaseModel:
         self.created_at = datetime.now()
         self.updated_at = datetime.now()
 
-
     def __str__(self):
         """ returns a string representation of an instance """
 
@@ -32,7 +31,6 @@ class BaseModel:
         with the current datetime """
 
         self.updated_at = datetime.now()
-
 
     def to_dict(self):
         """ returns a dictionary containing all

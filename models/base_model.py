@@ -6,6 +6,8 @@ from uuid import uuid4
 from datetime import datetime
 import models
 
+time_for = "%Y-%m-%dT%H:%M:%S.%f"
+
 
 class BaseModel:
     """ The BaseModel class"""
@@ -17,10 +19,16 @@ class BaseModel:
             **kwargs: represents the key/value pairs of attributes
         """
 
-        self.id = str(uuid4())
-        self.created_at = datetime.now()
-        self.updated_at = datetime.now()
-
+        if kwargs:
+            for k, v in kwargs.items():
+                if k != "__class__":
+                    setattr(self, k, v)
+            self.created_at = datetime.strptime(kwargs["created_at"], time_for)
+            self.updated_at = datetime.strptime(kwargs["updated_at"], time_for)
+        else:
+            self.id = str(uuid4())
+            self.created_at = datetime.now()
+            self.updated_at = datetime.now()
 
     def __str__(self):
         """ returns a string representation of an instance """
@@ -32,7 +40,6 @@ class BaseModel:
         with the current datetime """
 
         self.updated_at = datetime.now()
-
 
     def to_dict(self):
         """ returns a dictionary containing all

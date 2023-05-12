@@ -19,7 +19,6 @@ class BaseModel:
             **kwargs: represents the key/value pairs of attributes
         """
 
-<<<<<<< HEAD
         if kwargs:
             for k, v in kwargs.items():
                 if k != "__class__":
@@ -30,16 +29,12 @@ class BaseModel:
             self.id = str(uuid4())
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
-=======
-        self.id = str(uuid4())
-        self.created_at = datetime.now()
-        self.updated_at = datetime.now()
->>>>>>> f45ddfcc34bce749f1f30c23d6b7916ae0df18b2
 
     def __str__(self):
         """ returns a string representation of an instance """
-
-        return f"[{type(self).__name__}] ({self.id}) {self.__dict__}"
+        return "[{}] ({}) {}".format(self.__class__.__name__, self.id, self.__dict__)
+	print()
+	print("the value of type is",type)
 
     def save(self):
         """ updates the public instance attribute "updated_at"

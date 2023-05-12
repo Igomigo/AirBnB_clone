@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """ module that contains the FileStorage class """
-from models.base_model import BaseModel
 import json
+from models.base_model import BaseModel
 from models.user import User
 from models.state import State
 from models.city import City

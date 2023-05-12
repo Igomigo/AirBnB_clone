@@ -32,9 +32,8 @@ class BaseModel:
 
     def __str__(self):
         """ returns a string representation of an instance """
-        return "[{}] ({}) {}".format(self.__class__.__name__, self.id, self.__dict__)
-	print()
-	print("the value of type is",type)
+        return "[{}] ({}) {}".format(
+                               self.__class__.__name__, self.id, self.__dict__)
 
     def save(self):
         """ updates the public instance attribute "updated_at"

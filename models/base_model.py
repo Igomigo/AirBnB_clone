@@ -7,7 +7,7 @@ from uuid import uuid4
 from datetime import datetime
 import models
 
-time_for = "%Y-%m-%dT%H:%M:%S.%f"
+"""time_for = "%Y-%m-%dT%H:%M:%S.%f"""
 
 
 class BaseModel:
@@ -19,6 +19,7 @@ class BaseModel:
             *args: not used
             **kwargs: represents the key/value pairs of attributes
         """
+        time_for = "%Y-%m-%dT%H:%M:%S.%f"
 
         if kwargs:
             for k, v in kwargs.items():

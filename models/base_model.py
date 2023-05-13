@@ -7,13 +7,9 @@ from uuid import uuid4
 from datetime import datetime
 import models
 
-"""time_for = "%Y-%m-%dT%H:%M:%S.%f"""
-
 
 class BaseModel:
     """ The BaseModel class"""
-
-    time_for = "%Y-%m-%dT%H:%M:%S.%f"
 
     def __init__(self, *args, **kwargs):
         """ the class constructor that initializes a new BaseModel
@@ -21,8 +17,8 @@ class BaseModel:
             *args: not used
             **kwargs: represents the key/value pairs of attributes
         """
-
-        if kwargs:
+        time_for = "%Y-%m-%dT%H:%M:%S.%f"
+        if kwargs is not None and kwargs != {}:
             for k, v in kwargs.items():
                 if k != "__class__":
                     setattr(self, k, v)

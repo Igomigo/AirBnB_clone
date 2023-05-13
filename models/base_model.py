@@ -13,13 +13,14 @@ import models
 class BaseModel:
     """ The BaseModel class"""
 
+    time_for = "%Y-%m-%dT%H:%M:%S.%f"
+
     def __init__(self, *args, **kwargs):
         """ the class constructor that initializes a new BaseModel
         Args:
             *args: not used
             **kwargs: represents the key/value pairs of attributes
         """
-        time_for = "%Y-%m-%dT%H:%M:%S.%f"
 
         if kwargs:
             for k, v in kwargs.items():

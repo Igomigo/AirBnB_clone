@@ -31,23 +31,21 @@ class FileStorage:
         """
 
         obj_key = "{}.{}".format(self.__class__.__name__, obj.id)
-        self.__objects[obj_key] = obj
+        FileStorage.__objects[obj_key] = obj
 
     def save(self):
         """Serializes __objects to the JSON file '__file_path'"""
 
-        js = {k: v.to_dict() for k, v in self.__objects.items()}
-        with open(self.__file_path, "w", encoding="utf-8") as jsonfile:
+        js = {k: v.to_dict() for k, v in FileStorage.__objects.items()}
+        with open(FileStorage.__file_path, "w", encoding="utf-8") as jsonfile:
             json.dump(js, jsonfile)
 
     def reload(self):
         """Deserializes JSON file into __objects."""
-
-        try:
-            with open(self.__file_path, 'r') as f:
-                data = json.load(f)
-                for key, obj in data.items():
-                    newObj = eval(obj['__class__'])(**obj)
-                    self.__objects[key] = newObj
-        except FileNotFoundError:
-            pass
+        if not os.path.isfile(FileStorage.__file_path):
+            return
+        with open(FileStorage.__file_path, "r", encoding="utf-8") as f:
+            obj_dict = json.load(f)
+            obj_dict = {k: self.classes()[v["__class__"]](**v)
+                        for k, v in obj_dict.items()}
+            FileStorage.__objects = obj_dict

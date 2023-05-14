@@ -77,10 +77,6 @@ class HBNBCommand(cmd.Cmd):
         "nothing happens with an emptyline.\n"
         pass
 
-    def help_emptyline(self):
-        '''help info on emptyline'''
-        print("prevents the default of passing an emptyline\n")
-
     def do_create(self, arg):
         '''Creates a new instance of any class'''
         if arg == "":

@@ -70,7 +70,7 @@ class HBNBCommand(cmd.Cmd):
         pass
 
     def do_create(self, arg):
-        '''Creates a new instance of any class'''
+        '''Creates a new instance of any class\n'''
         if arg == "":
             print("** class name missing **")
         elif arg not in HBNBCommand.classes:
@@ -82,7 +82,7 @@ class HBNBCommand(cmd.Cmd):
             new_instance.save()
 
     def do_show(self, arg):
-        '''Shows an individual object '''
+        '''Shows an individual object\n'''
         if len(arg) == 0:
             print("** class name missing **")
             return
@@ -110,7 +110,7 @@ class HBNBCommand(cmd.Cmd):
             print("** no instance found **")
 
     def do_count(self, line):
-        '''retrieves the number of a class present in the storage'''
+        '''retrieves the number of a class present in the storage\n'''
         count = 0
         for k, v in storage._FileStorage__objects.items():
             if k.split(".")[0] == line:
@@ -118,7 +118,7 @@ class HBNBCommand(cmd.Cmd):
         print(count)
 
     def do_destroy(self, args):
-        """ Destroys a specified object """
+        '''Destroys a specified object\n'''
         if len(args) == 0:
             print("** class name missing **")
             return
@@ -148,7 +148,7 @@ class HBNBCommand(cmd.Cmd):
                 print("** no instance found **")
 
     def do_all(self, args):
-        """ Shows all objects, or all objects of a class"""
+        """Shows all objects, or all objects of a class\n"""
         print_list = []
 
         if args:
@@ -167,7 +167,7 @@ class HBNBCommand(cmd.Cmd):
         print(print_list)
 
     def do_update(self, args):
-        """ Updates a certain object with new info """
+        """Updates a certain object with new info\n """
         c_name = c_id = att_name = att_val = kwargs = ''
 
         # isolate cls from id/args, ex: (<cls>, delim, <id/args>)

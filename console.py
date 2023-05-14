@@ -57,20 +57,32 @@ class HBNBCommand(cmd.Cmd):
                     self.do_update(cls_name+" "+cls_id+" "+name+" "+val)
 
     def do_quit(self, line):
-        "To exit my wonderful command intepreter\n"
+        '''To exit my wonderful command intepreter'''
         return True
+
+    def help_quit(self):
+        '''help info on quitting the program'''
+        print("quit the program with <quit>\n")
 
     def do_EOF(self, line):
         "also to exit my program\n"
         print()
         return True
 
+    def help_EOF(self):
+        '''help info on EOF'''
+        print("Exit the program with <Ctrl + d>\n")
+
     def emptyline(self):
         "nothing happens with an emptyline.\n"
         pass
 
+    def help_emptyline(self):
+        '''help info on emptyline'''
+        print("prevents the default of passing an emptyline\n")
+
     def do_create(self, arg):
-        '''Creates a new instance of any class\n'''
+        '''Creates a new instance of any class'''
         if arg == "":
             print("** class name missing **")
         elif arg not in HBNBCommand.classes:
@@ -81,8 +93,13 @@ class HBNBCommand(cmd.Cmd):
             print(new_instance.id)
             new_instance.save()
 
+    def help_create(self):
+        '''help info on the create command'''
+        print("creates a new existing class")
+        print("USAGE: create <class name>\n")
+
     def do_show(self, arg):
-        '''Shows an individual object\n'''
+        '''Shows an individual object'''
         if len(arg) == 0:
             print("** class name missing **")
             return
@@ -109,6 +126,11 @@ class HBNBCommand(cmd.Cmd):
         except KeyError:
             print("** no instance found **")
 
+    def help_show(self):
+        '''help info on the show command'''
+        print("shows an existing class")
+        print("USAGE: show <class name> <objects id>\n")
+
     def do_count(self, line):
         '''retrieves the number of a class present in the storage\n'''
         count = 0
@@ -116,6 +138,11 @@ class HBNBCommand(cmd.Cmd):
             if k.split(".")[0] == line:
                 count += 1
         print(count)
+
+    def help_count(self):
+        '''help info on the count command'''
+        print("counts a specific class")
+        print("USAGE: count <class name>\n")
 
     def do_destroy(self, args):
         '''Destroys a specified object\n'''
@@ -147,6 +174,11 @@ class HBNBCommand(cmd.Cmd):
             except KeyError:
                 print("** no instance found **")
 
+    def help_destroy(self):
+        '''help info on the destroy command'''
+        print("deletes a specific class")
+        print("USAGE: destroy <class name> <objects id>\n")
+
     def do_all(self, args):
         """Shows all objects, or all objects of a class\n"""
         print_list = []
@@ -165,6 +197,11 @@ class HBNBCommand(cmd.Cmd):
                 print_list.append(str(v))
 
         print(print_list)
+
+    def help_all(self):
+        '''help info on the all command'''
+        print("show a class or all existing class")
+        print("USAGE: all <class name>\n")
 
     def do_update(self, args):
         """Updates a certain object with new info\n """
@@ -248,6 +285,11 @@ class HBNBCommand(cmd.Cmd):
                 new_dict.__dict__.update({att_name: att_val})
 
         new_dict.save()  # save updates to file
+
+    def help_update(self):
+        '''help info on the update command'''
+        print("updates a specific class")
+        print("USAGE: update <class name> <objects id> <attName> <attVal>\n")
 
 
 if __name__ == "__main__":

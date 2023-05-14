@@ -30,7 +30,7 @@ class FileStorage:
         by just the instance's class name and id.
         """
 
-        obj_key = "{}.{}".format(self.__class__.__name__, obj.id)
+        obj_key = "{}.{}".format(obj.__class__.__name__, obj.id)
         self.__objects[obj_key] = obj
 
     def save(self):

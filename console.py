@@ -1,7 +1,4 @@
 #!/usr/bin/python3
-'''this module contains a program that contains the entry point
-    of the command interpreter'''
-""" Console Module """
 import cmd
 from models.base_model import BaseModel
 from models.user import User
@@ -10,15 +7,54 @@ from models.city import City
 from models.place import Place
 from models.amenity import Amenity
 from models.review import Review
+from models.__init__ import storage
+'''this module contains a program that contains the entry point
+    of the command interpreter'''
+""" Console Module """
 
 
 class HBNBCommand(cmd.Cmd):
     '''the class that implements a command intepreter'''
 
-    classes = {"BaseModel": BaseModel, "User": User, "Place":
-                 Place, "State": State, "City": City, "Amenity":
-                 Amenity, "Review": Review}
+    classes = {"BaseModel": BaseModel, "User": User,
+               "Place": Place, "State": State, "City": City,
+               "Amenity": Amenity, "Review": Review}
+    types = {
+             'number_rooms': int, 'number_bathrooms': int,
+             'max_guest': int, 'price_by_night': int,
+             'latitude': float, 'longitude': float
+            }
     prompt = "(hbnb) "
+
+    def default(self, line):
+        '''Handle commands with specified syntax'''
+        if "." in line:
+            args = line.split(".")
+            cls_name = args[0]
+            cmd = args[1]
+            if cmd == "count()":
+                self.do_count(cls_name)
+            elif cmd == "all()":
+                self.do_all(cls_name)
+            elif cmd.startswith("show("):
+                cls_id = cmd.split('"')[1]
+                self.do_show(cls_name + " " + cls_id)
+            elif cmd.startswith("destroy("):
+                cls_id = cmd.split('"')[1]
+                self.do_destroy(cls_name + " " + cls_id)
+            elif cmd.startswith("update("):
+                if "{" in cmd:
+                    cmd_args = cmd.split('(')[1].split(')')[0].split(
+                        ',', maxsplit=1)
+                    cls_id = cmd_args[0].strip().strip('"')
+                    dict1 = eval(cmd_args[1])
+                    for k, v in dict1.items():
+                        self.do_update(cls_name+" "+cls_id+" "+k+" "+str(v))
+                else:
+                    cls_id = cmd.split('"')[1]
+                    name = cmd.split('"')[3]
+                    val = cmd.split('"')[5]
+                    self.do_update(cls_name+" "+cls_id+" "+name+" "+val)
 
     def do_quit(self, line):
         "To exit my wonderful command intepreter\n"
@@ -43,24 +79,29 @@ class HBNBCommand(cmd.Cmd):
             new_instance = HBNBCommand.classes[arg]()
             new_instance.save()
             print(new_instance.id)
+            new_instance.save()
 
     def do_show(self, arg):
         '''Shows an individual object '''
-        new = arg.split()
-        cls_name = new[0]
-        cls_id = new[1] if len(new) > 1 else None
-
-        if not cls_name:
+        if len(arg) == 0:
             print("** class name missing **")
             return
 
-        if cls_name not in HBNBCommand.classes:
-            print("** class doesn't exist **")
-            return
+        if len(arg) >= 1:
+            new = arg.split()
+            cls_name = new[0]
+            if len(new) > 1:
+                cls_id = new[1]
+            else:
+                cls_id = None
 
-        if not cls_id:
-            print("** instance id missing **")
-            return
+            if cls_name not in HBNBCommand.classes:
+                print("** class doesn't exist **")
+                return
+
+            if not cls_id:
+                print("** instance id missing **")
+                return
 
         key = cls_name + "." + cls_id
         try:
@@ -68,31 +109,43 @@ class HBNBCommand(cmd.Cmd):
         except KeyError:
             print("** no instance found **")
 
+    def do_count(self, line):
+        '''retrieves the number of a class present in the storage'''
+        count = 0
+        for k, v in storage._FileStorage__objects.items():
+            if k.split(".")[0] == line:
+                count += 1
+        print(count)
+
     def do_destroy(self, args):
         """ Destroys a specified object """
-        new = args.split()
-        c_name = new[0]
-        c_id = new[1] if len(args) > 1 else None
-
-        if not c_name:
+        if len(args) == 0:
             print("** class name missing **")
             return
 
-        if c_name not in HBNBCommand.classes:
-            print("** class doesn't exist **")
-            return
+        if len(args) >= 1:
+            new = args.split()
+            c_name = new[0]
+            if len(new) > 1:
+                c_id = new[1]
+            else:
+                c_id = None
 
-        if not c_id:
-            print("** instance id missing **")
-            return
+            if c_name not in HBNBCommand.classes:
+                print("** class doesn't exist **")
+                return
 
-        key = c_name + "." + c_id
+            if not c_id:
+                print("** instance id missing **")
+                return
 
-        try:
-            del(storage.all()[key])
-            storage.save()
-        except KeyError:
-            print("** no instance found **")
+            key = c_name + "." + c_id
+
+            try:
+                del (storage.all()[key])
+                storage.save()
+            except KeyError:
+                print("** no instance found **")
 
     def do_all(self, args):
         """ Shows all objects, or all objects of a class"""
@@ -104,7 +157,8 @@ class HBNBCommand(cmd.Cmd):
                 print("** class doesn't exist **")
                 return
             for k, v in storage._FileStorage__objects.items():
-                if k.split('.')[0] == args:
+                cls_name = k.split(".")
+                if cls_name[0] == args:
                     print_list.append(str(v))
         else:
             for k, v in storage._FileStorage__objects.items():

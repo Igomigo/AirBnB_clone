@@ -1,4 +1,8 @@
 #!/usr/bin/python3
+"""this module contains a program that contains the entry point
+    of the command interpreter
+ Console Module """
+
 import cmd
 from models.base_model import BaseModel
 from models.user import User
@@ -8,9 +12,6 @@ from models.place import Place
 from models.amenity import Amenity
 from models.review import Review
 from models.__init__ import storage
-'''this module contains a program that contains the entry point
-    of the command interpreter'''
-""" Console Module """
 
 
 class HBNBCommand(cmd.Cmd):
